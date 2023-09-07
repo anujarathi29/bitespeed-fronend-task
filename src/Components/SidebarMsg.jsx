@@ -13,7 +13,10 @@ const StyledTextArea = styled(TextareaAutosize)(
         box-shadow: 0px 2px 2px lightgrey;        
 `)
 
-function SidebarMsg() {
+function SidebarMsg({nodeLabel,setNodeLabel,save}) {
+    console.log("Value of save is: ", save);
+    const label='textNode'
+    setNodeLabel(label)
     return (
         <Drawer sx={{
             width: drawerWidth,
@@ -44,7 +47,7 @@ function SidebarMsg() {
                 <Typography sx={{ color: 'grey' }}>Text</Typography>
             </Toolbar>
             <Toolbar variant='dense' sx={{ mb: 3 }} >
-                <StyledTextArea minRows={3}></StyledTextArea>
+                <StyledTextArea minRows={3} onChange={(evt) => save ? setNodeLabel(evt.target.value): setNodeLabel(label)} >{nodeLabel}</StyledTextArea>
             </Toolbar>
             <Divider sx={{ backgroundColor: 'grey' }} />
 

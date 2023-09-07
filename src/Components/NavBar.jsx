@@ -1,5 +1,7 @@
 import styled from '@emotion/styled'
-import { Box, AppBar, Toolbar, Button } from '@mui/material'
+import { Box, AppBar, Toolbar, Button, Snackbar} from '@mui/material'
+import { forwardRef, useState } from 'react';
+import MuiAlert from '@mui/material/Alert'
 
 const SaveButton = styled(Button)({
     color: '#80868b',
@@ -10,16 +12,56 @@ const SaveButton = styled(Button)({
     },
 })
 
-function NavBar() {
+const Alert = forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+  
+
+
+function NavBar({ isConnected,isSelected,setSave,save}) {
+    // console.log("Is connected info in NavBar: ", isConnected);
+    const [snackState, setSnackState] = useState({
+        open: false,
+        vertical: 'top',
+        horizontal: 'center',
+    });
+
+    const { vertical, horizontal, open } = snackState
+    const handleOnClick = (newSnackState) => {
+        if(isSelected){
+            setSave(!save)
+        }
+        else{
+            if (isConnected) {
+            setSnackState({ ...newSnackState, open: false });
+        }
+        else {
+            setSnackState({ ...newSnackState, open: true });
+        }}
+    }
+    const handleClose = () => {
+        setSnackState({ ...snackState, open: false });
+    };
     return (
-        
-            <AppBar position='fixed' elevation={0} sx={{ backgroundColor: '#f3f3f3' }}>
-                <Toolbar variant='dense' sx={{ flexDirection: 'row-reverse', marginRight: '120px' }}>
-                    <SaveButton variant="outlined">
-                        <label style={{color:'#505892', fontWeight:'bold'}}>Save Changes</label>
-                    </SaveButton>
-                </Toolbar>
-            </AppBar>
+        <AppBar position='fixed' elevation={0} sx={{ backgroundColor: '#f3f3f3' }}>
+            <Toolbar variant='dense' sx={{ flexDirection: 'row-reverse', marginRight: '120px' }}>
+                <SaveButton variant="outlined" onClick={() => handleOnClick({ vertical: 'top', horizontal: 'top' })}>
+                    <label style={{ color: '#505892', fontWeight: 'bold' }}>Save Changes</label>
+                </SaveButton>
+            </Toolbar>
+            <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                autoHideDuration={900}
+                key={vertical + horizontal}
+                onClose={handleClose}
+            >
+                <Alert severity="error">
+                    Cannot be saved!
+
+                </Alert>
+                </Snackbar>
+        </AppBar>
 
     )
 }

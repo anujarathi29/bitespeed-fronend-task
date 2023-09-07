@@ -3,30 +3,16 @@ import { Handle, Position, getConnectedEdges, useNodeId, useStore } from "reactf
 import { WhatsApp, MessageRounded } from "@mui/icons-material";
 import { Avatar, Card, CardContent, CardHeader, Divider, IconButton, TextField, Typography } from "@mui/material";
 
-const selector =   (nodeId,data) => (s) => {
+const selector =   (nodeId) => (s) => {
     const node = s.nodeInternals.get(nodeId)
-    const connectedEdges = getConnectedEdges([node],s.edges)
+    const connectedEdges = getConnectedEdges([node],s.edges) 
     return   connectedEdges.filter((e) => e.source === nodeId).length < 1 
 }
-
 
 function CustomNode({ data }) {
     const nodeId = useNodeId()
     const isConnectable = useStore( useCallback(selector(nodeId)))
 
-    // const [borderStyle, setBorderStyle] = useState(false);
-
-    // useEffect(() => {
-    //   if (data.isSelected) {
-    //     setBorderStyle(data.isSelected);
-    //   }
-    //   else{
-    //     setBorderStyle(!data.isSelected)
-    //   }
-    // }, [data]);
-
-    //const isSelected = data.onChange
-    
     return (
         <>
             <Handle type="target" position={Position.Left} />
@@ -48,7 +34,7 @@ function CustomNode({ data }) {
                 />
                 <Divider />
                 <CardContent sx={{ mt: 0, height: 55 }}>
-                    <Typography sx={{fontFamily:'sans-serif', color:'darkslategray'}}>textNode</Typography>
+                    <Typography sx={{fontFamily:'sans-serif', color:'darkslategray'}} >{data.label}</Typography>
                 </CardContent>
             </Card>
             <Handle type="source" position={Position.Right} isConnectable={isConnectable}/>

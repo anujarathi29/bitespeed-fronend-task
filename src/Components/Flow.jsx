@@ -19,7 +19,7 @@ const initialNodes = [
         id: 'node_0',
         position: { x: 60, y: 50 },
         type: 'custom', 
-        data:{isSelected: false}
+        data:{label: 'textNode', isSelected: false}
     },
 ]
 let id = 1;
@@ -31,9 +31,14 @@ const Flow = () => {
     const [edges, setEdges, onEdgesChange] = useEdgesState([])
     const [reactFlowInstance, setReactrFlowInstance] = useState(0)
     const [isSelected,setIsSelected] = useState(false)
+    const [isConnected, setIsConnected] = useState(false)
+    const [save,setSave] = useState(false)
+    const [nodeLabel,setNodeLabel] = useState('textNode')
     
-    const onConnect = useCallback((params) => setEdges((edg) => addEdge({...params,markerEnd: {type:'arrow'}, style: {
-        strokeWidth: 3}},edg)),[setEdges])
+    const onConnect = useCallback((params) => {setEdges((edg) => addEdge({...params,markerEnd: {type:'arrow'}, style: {
+        strokeWidth: 3}},edg)) 
+        setIsConnected(!isConnected)
+    },[setEdges])
 
     const onDragOver = useCallback((e) => {
         e.preventDefault();
@@ -66,16 +71,19 @@ const Flow = () => {
     )
 
     const handleNodeSelection = (e,node) =>{
+        
         setIsSelected(!isSelected)
         setNodes((nds) =>
         nds.map((item) => {
           if (item.id === node.id) {
             item.data = {
-              isSelected: !isSelected,
+                ...item.data,
+                isSelected: !isSelected,
             };
           }
           else{
             item.data = {
+                ...item.data,
                 isSelected: false,
               };
           }
@@ -98,14 +106,13 @@ const Flow = () => {
                     onDragOver={onDragOver}
                     nodeTypes={nodeTypes}
                     onNodeClick={handleNodeSelection}
-                    style={bgstyle}
-                    
+                    style={bgstyle}  
                 >
                     <Background/>
                     <Controls />   
         </ReactFlow>
-        <NavBar/>
-        {isSelected?<SidebarMsg/>:<Sidebar/>}
+        <NavBar isConnected={isConnected} isSelected={isSelected} setSave={setSave} save={save}/>
+        {isSelected?<SidebarMsg nodeLabel={nodeLabel} setNodeLabel={setNodeLabel} save={save}/>:<Sidebar/>}
         </div>
         </div >
     )
