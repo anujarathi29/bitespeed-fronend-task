@@ -7,7 +7,7 @@ function AudioButton() {
         '&:hover': {
             borderColor: '#ffffff'
         },
-        padding: '20px 45px',
+        padding: '20px 55px',
         flexDirection: 'column'
     })
 

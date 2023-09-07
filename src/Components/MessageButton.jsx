@@ -8,7 +8,7 @@ const TxtButton = styled(Button)({
     '&:hover': {
         borderColor: '#ffffff'
     },
-    padding: '20px 30px',
+    padding: '20px 40px',
     flexDirection: 'column'
 })
 return (

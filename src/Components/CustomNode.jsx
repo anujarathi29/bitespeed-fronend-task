@@ -1,26 +1,36 @@
-import { useCallback } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Handle, Position, getConnectedEdges, useNodeId, useStore } from "reactflow";
 import { WhatsApp, MessageRounded } from "@mui/icons-material";
 import { Avatar, Card, CardContent, CardHeader, Divider, IconButton, TextField, Typography } from "@mui/material";
 
-const selector =   (nodeId) => (s) => {
+const selector =   (nodeId,data) => (s) => {
     const node = s.nodeInternals.get(nodeId)
     const connectedEdges = getConnectedEdges([node],s.edges)
-    
-    
-    return   connectedEdges.filter((e) => e.source === nodeId).length < 1
+    return   connectedEdges.filter((e) => e.source === nodeId).length < 1 
 }
 
+
 function CustomNode({ data }) {
-    const onChange = useCallback((e) => {
-        console.log(e.target.value);
-    }, [])
     const nodeId = useNodeId()
     const isConnectable = useStore( useCallback(selector(nodeId)))
+
+    // const [borderStyle, setBorderStyle] = useState(false);
+
+    // useEffect(() => {
+    //   if (data.isSelected) {
+    //     setBorderStyle(data.isSelected);
+    //   }
+    //   else{
+    //     setBorderStyle(!data.isSelected)
+    //   }
+    // }, [data]);
+
+    //const isSelected = data.onChange
+    
     return (
         <>
             <Handle type="target" position={Position.Left} />
-            <Card sx={{ minWidth: 300, maxHeight: 125, borderRadius: '10px' }} elevation={7}>
+            <Card sx={{ minWidth: 300, maxHeight: 125, borderRadius: '10px', border: data.isSelected? '1px solid steelblue' :'0px'}} elevation={7} >
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: '#b3efe2', height:25, width:25}}>
@@ -37,11 +47,8 @@ function CustomNode({ data }) {
                     sx={{ bgcolor: '#b3efe2', height: 45}}
                 />
                 <Divider />
-                <CardContent sx={{ mt: 0, height: 70 }}>
-                    <TextField id="standard-basic" label="test message 1" variant="outlined" size="small" onChange={onChange}
-                        sx={{
-                            "& fieldset": { border: 'none' },
-                        }} />
+                <CardContent sx={{ mt: 0, height: 55 }}>
+                    <Typography sx={{fontFamily:'sans-serif', color:'darkslategray'}}>textNode</Typography>
                 </CardContent>
             </Card>
             <Handle type="source" position={Position.Right} isConnectable={isConnectable}/>
@@ -49,4 +56,4 @@ function CustomNode({ data }) {
     )
 }
 
-export default CustomNode
+export default memo(CustomNode)

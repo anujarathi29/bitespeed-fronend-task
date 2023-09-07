@@ -1,15 +1,17 @@
-import Sidebar from './Components/Sidebar';
-import NavBar from './Components/NavBar';
+// import Sidebar from './Components/Sidebar';
+// import NavBar from './Components/NavBar';
 // import DnDFlow from './Components/DnDFlow';
 import Flow from './Components/Flow'
+// import SidebarMsg from './Components/SidebarMsg';
 import './App.css'
 
 function App() {
   return (
     <div className='container'>
-      <NavBar />
+      {/* <NavBar /> */}
       <div>
-        <Sidebar />
+        {/* <Sidebar /> */}
+        {/* <SidebarMsg/> */}
         <Flow />
       </div>
     </div>

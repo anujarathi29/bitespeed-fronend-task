@@ -2,7 +2,7 @@ import { Drawer, Toolbar } from "@mui/material";
 import MessageButton from "./MessageButton";
 import AudioButton from "./AudioButton";
 
-const drawerWidth = 350;
+const drawerWidth = 400;
 
 function Sidebar() {
     const onDragStart = (event, nodeType) => {
