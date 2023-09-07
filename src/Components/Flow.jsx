@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from 'react'
-import ReactFlow, { Background, Controls, MarkerType, addEdge, useEdgesState, useNodesState } from 'reactflow'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import ReactFlow, { Background, Controls,addEdge, useEdgesState, useNodesState } from 'reactflow'
 import Sidebar from './Sidebar'
 import NavBar from './NavBar'
 import 'reactflow/dist/style.css'
@@ -18,8 +18,8 @@ const initialNodes = [
     {
         id: 'node_0',
         position: { x: 60, y: 50 },
-        type: 'custom', 
-        data:{label: 'textNode', isSelected: false}
+        type: 'custom',
+        data: { label: 'textNode', selected:false }
     },
 ]
 let id = 1;
@@ -29,16 +29,19 @@ const Flow = () => {
     const reactFlowWrapper = useRef(null)
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
     const [edges, setEdges, onEdgesChange] = useEdgesState([])
-    const [reactFlowInstance, setReactrFlowInstance] = useState(0)
-    const [isSelected,setIsSelected] = useState(false)
-    const [isConnected, setIsConnected] = useState(false)
-    const [save,setSave] = useState(false)
-    const [nodeLabel,setNodeLabel] = useState('textNode')
+    const [reactFlowInstance, setReactFlowInstance] = useState(0)
+    const [selectedNodeId, setSelectedNodeId] = useState(null)
+    const [nodeLabel, setNodeLabel] = useState('textNode')
     
-    const onConnect = useCallback((params) => {setEdges((edg) => addEdge({...params,markerEnd: {type:'arrow'}, style: {
-        strokeWidth: 3}},edg)) 
-        setIsConnected(!isConnected)
-    },[setEdges])
+
+    const onConnect = useCallback((params) => {
+        setEdges((edg) => addEdge({
+            ...params, markerEnd: { type: 'arrow' }, style: {
+                strokeWidth: 3
+            }
+        }, edg))
+        
+    }, [setEdges])
 
     const onDragOver = useCallback((e) => {
         e.preventDefault();
@@ -63,34 +66,66 @@ const Flow = () => {
             id: getId(),
             type,
             position,
-            data:{isSelected: isSelected},
+            data: { label: nodeLabel ,selected: false },
         }
         setNodes((nds) => nds.concat(newNode));
     },
         [reactFlowInstance]
     )
 
-    const handleNodeSelection = (e,node) =>{
-        
-        setIsSelected(!isSelected)
-        setNodes((nds) =>
-        nds.map((item) => {
-          if (item.id === node.id) {
-            item.data = {
-                ...item.data,
-                isSelected: !isSelected,
-            };
-          }
-          else{
-            item.data = {
-                ...item.data,
-                isSelected: false,
-              };
-          }
-          return item;
+    const handleNodeSelection = (e, node) => {
+        setNodeLabel(node.data.label)
+        setSelectedNodeId(prev => {
+            //console.log("inside set selected nodeid, prev is - ", prev);
+            
+                if (prev) {
+                    return null;
+                }
+            
+                return node.id;
+            
+        });
+
+        setNodes(prev => {
+            //console.log("inside set nodes prev is ", prev);
+            return prev.map(p => {
+                //console.log("inside map, p is - ", p);
+                if ((p.id !== node.id) || p.data.selected) {
+                    //console.log("inside map if - ", node.id);
+                    p.data.selected = false;
+                } else {
+                   // console.log("inside map else - ", node.id);
+                    p.data.selected = true;
+                }
+                return p;
+            });
         })
-      );
     }
+
+    const handlePaneClick = (e) => {
+            setSelectedNodeId(null)
+    }
+
+    useEffect(() => {
+        setNodes((nds) =>
+          nds.map((node) => {
+            if (node.id === selectedNodeId) {
+              node.data = {
+                ...node.data,
+                label: nodeLabel,
+              };
+            }
+            return node;
+          })
+        );
+      }, [nodeLabel, setNodes]);
+
+      const connectedStatus = nodes.filter((node) => {
+        return !edges.some((edge) => edge.source === node.id || edge.target === node.id);
+      });
+
+      console.log("Connected Status", connectedStatus.length);
+      
 
     return (
         <div>
@@ -101,19 +136,20 @@ const Flow = () => {
                     edges={edges}
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
-                    onInit={setReactrFlowInstance}
+                    onInit={setReactFlowInstance}
                     onDrop={onDrop}
                     onDragOver={onDragOver}
                     nodeTypes={nodeTypes}
                     onNodeClick={handleNodeSelection}
-                    style={bgstyle}  
+                    onPaneClick={handlePaneClick}
+                    style={bgstyle}
                 >
-                    <Background/>
-                    <Controls />   
-        </ReactFlow>
-        <NavBar isConnected={isConnected} isSelected={isSelected} setSave={setSave} save={save}/>
-        {isSelected?<SidebarMsg nodeLabel={nodeLabel} setNodeLabel={setNodeLabel} save={save}/>:<Sidebar/>}
-        </div>
+                    <Background />
+                    <Controls />
+                </ReactFlow>
+                <NavBar connectedStatus={connectedStatus}/>
+                {selectedNodeId === null ? <Sidebar /> : <SidebarMsg nodeLabel={nodeLabel} setNodeLabel={setNodeLabel} setSelectedNodeId={setSelectedNodeId} />}
+            </div>
         </div >
     )
 }

@@ -13,10 +13,12 @@ const StyledTextArea = styled(TextareaAutosize)(
         box-shadow: 0px 2px 2px lightgrey;        
 `)
 
-function SidebarMsg({nodeLabel,setNodeLabel,save}) {
-    console.log("Value of save is: ", save);
-    const label='textNode'
-    setNodeLabel(label)
+function SidebarMsg({nodeLabel,setNodeLabel,setSelectedNodeId}) {
+
+    const onHandleIconClick = () =>{
+        setSelectedNodeId(null)
+    }
+
     return (
         <Drawer sx={{
             width: drawerWidth,
@@ -34,7 +36,7 @@ function SidebarMsg({nodeLabel,setNodeLabel,save}) {
         >
             <Toolbar variant='dense'>
                 <Box sx={{ flexGrow: 1 }}>
-                <IconButton ><KeyboardBackspaceOutlined /></IconButton>
+                <IconButton onClick={onHandleIconClick} ><KeyboardBackspaceOutlined /></IconButton>
                 </Box>
                 <Box sx={{flexGrow:1}}>
                 <Typography sx={{fontWeight:'bold', color:'darkslategrey'}}>Message</Typography>
@@ -47,7 +49,7 @@ function SidebarMsg({nodeLabel,setNodeLabel,save}) {
                 <Typography sx={{ color: 'grey' }}>Text</Typography>
             </Toolbar>
             <Toolbar variant='dense' sx={{ mb: 3 }} >
-                <StyledTextArea minRows={3} onChange={(evt) => save ? setNodeLabel(evt.target.value): setNodeLabel(label)} >{nodeLabel}</StyledTextArea>
+                <StyledTextArea minRows={3} onChange={(evt) => setNodeLabel(evt.target.value)} value={nodeLabel}></StyledTextArea>
             </Toolbar>
             <Divider sx={{ backgroundColor: 'grey' }} />
 

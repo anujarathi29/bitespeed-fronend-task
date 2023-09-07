@@ -10,13 +10,15 @@ const selector =   (nodeId) => (s) => {
 }
 
 function CustomNode({ data }) {
+
+    //console.log("data is ", data);
     const nodeId = useNodeId()
     const isConnectable = useStore( useCallback(selector(nodeId)))
 
     return (
         <>
             <Handle type="target" position={Position.Left} />
-            <Card sx={{ minWidth: 300, maxHeight: 125, borderRadius: '10px', border: data.isSelected? '1px solid steelblue' :'0px'}} elevation={7} >
+            <Card sx={{ minWidth: 300, maxHeight: 125, borderRadius: '10px', border: data.selected ? '1px solid steelblue' : '0px'}} elevation={7} >
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: '#b3efe2', height:25, width:25}}>

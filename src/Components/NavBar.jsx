@@ -1,5 +1,5 @@
 import styled from '@emotion/styled'
-import { Box, AppBar, Toolbar, Button, Snackbar} from '@mui/material'
+import { Box, AppBar, Toolbar, Button, Snackbar } from '@mui/material'
 import { forwardRef, useState } from 'react';
 import MuiAlert from '@mui/material/Alert'
 
@@ -14,12 +14,12 @@ const SaveButton = styled(Button)({
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-  
+});
 
 
-function NavBar({ isConnected,isSelected,setSave,save}) {
-    // console.log("Is connected info in NavBar: ", isConnected);
+
+function NavBar({ connectedStatus }) {
+     console.log("connectedstatus info in NavBar: ", connectedStatus);
     const [snackState, setSnackState] = useState({
         open: false,
         vertical: 'top',
@@ -28,16 +28,12 @@ function NavBar({ isConnected,isSelected,setSave,save}) {
 
     const { vertical, horizontal, open } = snackState
     const handleOnClick = (newSnackState) => {
-        if(isSelected){
-            setSave(!save)
-        }
-        else{
-            if (isConnected) {
+        if (connectedStatus == 0) {
             setSnackState({ ...newSnackState, open: false });
         }
         else {
             setSnackState({ ...newSnackState, open: true });
-        }}
+        }
     }
     const handleClose = () => {
         setSnackState({ ...snackState, open: false });
@@ -60,7 +56,7 @@ function NavBar({ isConnected,isSelected,setSave,save}) {
                     Cannot be saved!
 
                 </Alert>
-                </Snackbar>
+            </Snackbar>
         </AppBar>
 
     )
