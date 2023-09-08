@@ -82,24 +82,22 @@ const Flow = () => {
                 if (prev) {
                     if(prev != node.id)
                     return node.id
-                    //return null
+                    
+                    // if current node id is already selected, unselect it
+                    setNodes(prev => {
+                        let currentNode = prev?.find(p => p.id == node.id);
+                        if(currentNode) {
+                            currentNode.selected = false;
+                        }
+                        return [...prev];
+                    })
+
+                    return null
                 }
             
                 return node.id;
             
         });
-        // node.selected = true
-        // const updatedNodes = nodes.map((n) => {
-        //     if(n.id == node.id)
-        //     return {
-        //       ...n,
-        //       selected: true,
-        //     };
-        //     return n
-        // });
-        // setNodes(updatedNodes)
-    
-
     }
 
     const handlePaneClick = (e) => {
