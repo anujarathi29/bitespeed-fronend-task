@@ -1,9 +1,0 @@
-.text-updater-node {
-    box-sizing: border-box;
-    cursor: grab;
-    pointer-events: all;
-    position: absolute;
-    transform-origin: 0 0;
-    -webkit-user-select: none;
-    user-select: none
-}

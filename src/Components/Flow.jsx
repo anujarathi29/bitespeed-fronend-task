@@ -6,6 +6,8 @@ import 'reactflow/dist/style.css'
 import CustomNode from './CustomNode'
 import './custom.css'
 import SidebarMsg from './SidebarMsg'
+import './custom.css'
+
 
 const bgstyle = {
     backgroundColor: "#ffffff"
@@ -19,7 +21,7 @@ const initialNodes = [
         id: 'node_0',
         position: { x: 60, y: 50 },
         type: 'custom',
-        data: { label: 'textNode', selected:false }
+        data: { label: 'textNode'}
     },
 ]
 let id = 1;
@@ -66,7 +68,7 @@ const Flow = () => {
             id: getId(),
             type,
             position,
-            data: { label: nodeLabel ,selected: false },
+            data: { label: nodeLabel},
         }
         setNodes((nds) => nds.concat(newNode));
     },
@@ -74,32 +76,30 @@ const Flow = () => {
     )
 
     const handleNodeSelection = (e, node) => {
+        
         setNodeLabel(node.data.label)
-        setSelectedNodeId(prev => {
-            //console.log("inside set selected nodeid, prev is - ", prev);
-            
+        setSelectedNodeId(prev => {            
                 if (prev) {
-                    return null;
+                    if(prev != node.id)
+                    return node.id
+                    //return null
                 }
             
                 return node.id;
             
         });
+        // node.selected = true
+        // const updatedNodes = nodes.map((n) => {
+        //     if(n.id == node.id)
+        //     return {
+        //       ...n,
+        //       selected: true,
+        //     };
+        //     return n
+        // });
+        // setNodes(updatedNodes)
+    
 
-        setNodes(prev => {
-            //console.log("inside set nodes prev is ", prev);
-            return prev.map(p => {
-                //console.log("inside map, p is - ", p);
-                if ((p.id !== node.id) || p.data.selected) {
-                    //console.log("inside map if - ", node.id);
-                    p.data.selected = false;
-                } else {
-                   // console.log("inside map else - ", node.id);
-                    p.data.selected = true;
-                }
-                return p;
-            });
-        })
     }
 
     const handlePaneClick = (e) => {
@@ -120,12 +120,7 @@ const Flow = () => {
         );
       }, [nodeLabel, setNodes]);
 
-      const connectedStatus = nodes.filter((node) => {
-        return !edges.some((edge) => edge.source === node.id || edge.target === node.id);
-      });
 
-      console.log("Connected Status", connectedStatus.length);
-      
 
     return (
         <div>
@@ -142,13 +137,14 @@ const Flow = () => {
                     nodeTypes={nodeTypes}
                     onNodeClick={handleNodeSelection}
                     onPaneClick={handlePaneClick}
+                    
                     style={bgstyle}
                 >
                     <Background />
                     <Controls />
                 </ReactFlow>
-                <NavBar connectedStatus={connectedStatus}/>
-                {selectedNodeId === null ? <Sidebar /> : <SidebarMsg nodeLabel={nodeLabel} setNodeLabel={setNodeLabel} setSelectedNodeId={setSelectedNodeId} />}
+                <NavBar nodes={nodes} edges={edges} />
+                {selectedNodeId === null ? <Sidebar /> : <SidebarMsg nodeLabel={nodeLabel} nodes={nodes} setNodes={setNodes} setNodeLabel={setNodeLabel} setSelectedNodeId={setSelectedNodeId} />}
             </div>
         </div >
     )

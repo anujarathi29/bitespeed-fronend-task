@@ -1,6 +1,5 @@
 import { Box, Divider, Drawer, IconButton, TextareaAutosize, Toolbar, Typography } from "@mui/material";
 import { KeyboardBackspaceOutlined } from "@mui/icons-material";
-import Sidebar from "./Sidebar";
 import styled from "@emotion/styled";
 
 const drawerWidth = 400;
@@ -13,10 +12,18 @@ const StyledTextArea = styled(TextareaAutosize)(
         box-shadow: 0px 2px 2px lightgrey;        
 `)
 
-function SidebarMsg({nodeLabel,setNodeLabel,setSelectedNodeId}) {
+function SidebarMsg({nodeLabel,setNodeLabel,setSelectedNodeId,nodes,setNodes}) {
 
     const onHandleIconClick = () =>{
         setSelectedNodeId(null)
+        const updatedNodes = nodes.map((node) => {
+            return {
+              ...node,
+              selected: false,
+            };
+        });
+      
+        setNodes(updatedNodes)
     }
 
     return (

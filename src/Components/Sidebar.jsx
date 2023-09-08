@@ -1,6 +1,5 @@
 import { Drawer, Toolbar } from "@mui/material";
 import MessageButton from "./MessageButton";
-import AudioButton from "./AudioButton";
 
 const drawerWidth = 400;
 
@@ -28,9 +27,7 @@ function Sidebar() {
                 <div onDragStart={(event) => onDragStart(event, 'custom')} draggable><MessageButton/></div>
                 
             </Toolbar>
-            <Toolbar variant='dense'>
-                <div onDragStart={(event) => onDragStart(event, 'custom')} draggable><AudioButton/></div>
-            </Toolbar>
+
         </Drawer>
     )
 
