@@ -24,7 +24,7 @@ function CustomNode({ data, selected }) {
     return (
         <>
             <Handle type="target" position={Position.Left} style={handleStyle} />
-            <Card sx={{ minWidth: 300, maxHeight: 125, borderRadius: '10px', border: selected ? '1 solid steelblue' : '0px' }} elevation={7} >
+            <Card sx={{ minWidth: 300, maxHeight: 125, borderRadius: '10px', border: (selected ? '1px solid steelblue' : '0px') }} elevation={7} >
                 <CardHeader
                     avatar={
                         <Avatar sx={{ bgcolor: '#b3efe2', height: 25, width: 25 }}>
