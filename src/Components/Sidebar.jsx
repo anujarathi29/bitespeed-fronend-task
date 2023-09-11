@@ -1,7 +1,7 @@
 import { Drawer, Toolbar } from "@mui/material";
 import MessageButton from "./MessageButton";
 
-const drawerWidth = 400;
+const drawerWidth = 350;
 
 function Sidebar() {
     const onDragStart = (event, nodeType) => {
