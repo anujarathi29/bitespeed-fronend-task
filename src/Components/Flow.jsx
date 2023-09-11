@@ -10,7 +10,9 @@ import './custom.css'
 
 
 const bgstyle = {
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    height:'80%',
+    width:'60%'
 }
 
 
@@ -19,7 +21,7 @@ const nodeTypes = { custom: CustomNode }
 const initialNodes = [
     {
         id: 'node_0',
-        position: { x: 60, y: 50 },
+        position: { x: 70, y: 70 },
         type: 'custom',
         data: { label: 'textNode'}
     },
@@ -122,7 +124,7 @@ const Flow = () => {
 
     return (
         <div>
-            <div className='reactFlow-wrapper' ref={reactFlowWrapper} style={{ height: 900, width: 1500 }} >
+            <div className='reactFlow-wrapper' ref={reactFlowWrapper} style={{ height: 850, width: 1450 }} >
                 <ReactFlow
                     nodes={nodes}
                     onNodesChange={onNodesChange}
@@ -134,11 +136,10 @@ const Flow = () => {
                     onDragOver={onDragOver}
                     nodeTypes={nodeTypes}
                     onNodeClick={handleNodeSelection}
-                    onPaneClick={handlePaneClick}
-                    
+                    onPaneClick={handlePaneClick}                  
                     style={bgstyle}
                 >
-                    <Background />
+                    <Background/>
                     <Controls />
                 </ReactFlow>
                 <NavBar nodes={nodes} edges={edges} />
