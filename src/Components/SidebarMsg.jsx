@@ -2,7 +2,7 @@ import { Box, Divider, Drawer, IconButton, TextareaAutosize, Toolbar, Typography
 import { KeyboardBackspaceOutlined } from "@mui/icons-material";
 import styled from "@emotion/styled";
 
-const drawerWidth = 3500;
+const drawerWidth = 350;
 
 const StyledTextArea = styled(TextareaAutosize)(
     ({ theme }) => `

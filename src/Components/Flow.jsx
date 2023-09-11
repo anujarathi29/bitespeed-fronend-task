@@ -21,7 +21,7 @@ const nodeTypes = { custom: CustomNode }
 const initialNodes = [
     {
         id: 'node_0',
-        position: { x: 70, y: 70 },
+        position: { x: 70, y: 170 },
         type: 'custom',
         data: { label: 'textNode'}
     },
