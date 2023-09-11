@@ -21,7 +21,7 @@ const nodeTypes = { custom: CustomNode }
 const initialNodes = [
     {
         id: 'node_0',
-        position: { x: 70, y: 170 },
+        position: { x: 70, y: 120 },
         type: 'custom',
         data: { label: 'textNode'}
     },
@@ -124,7 +124,7 @@ const Flow = () => {
 
     return (
         <div>
-            <div className='reactFlow-wrapper' ref={reactFlowWrapper} style={{ height: 700, width: 1200 }} >
+            <div className='reactFlow-wrapper' ref={reactFlowWrapper} style={{ height: 900, width: 1400 }} >
                 <ReactFlow
                     nodes={nodes}
                     onNodesChange={onNodesChange}
