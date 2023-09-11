@@ -124,7 +124,7 @@ const Flow = () => {
 
     return (
         <div>
-            <div className='reactFlow-wrapper' ref={reactFlowWrapper} style={{ height: 900, width: 1400 }} >
+            <div className='reactFlow-wrapper' ref={reactFlowWrapper} style={{ height: 900, width: 1500 }} >
                 <ReactFlow
                     nodes={nodes}
                     onNodesChange={onNodesChange}
