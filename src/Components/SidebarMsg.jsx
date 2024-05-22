@@ -56,7 +56,7 @@ function SidebarMsg({nodeLabel,setNodeLabel,setSelectedNodeId,nodes,setNodes}) {
                 <Typography sx={{ color: 'grey' }}>Text</Typography>
             </Toolbar>
             <Toolbar variant='dense' sx={{ mb: 3 }} >
-                <StyledTextArea minRows={3} onChange={(evt) => setNodeLabel(evt.target.value)} value={nodeLabel}></StyledTextArea>
+                <StyledTextArea minRows={3} onChange={(evt) => setNodeLabel(evt.target.value)} value={nodeLabel} maxLength={800}></StyledTextArea>
             </Toolbar>
             <Divider sx={{ backgroundColor: 'grey' }} />
 
